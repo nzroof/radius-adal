@@ -7,11 +7,12 @@ ENV CLIENT_ID secret
 # Install pam, node and freeradius
 RUN export DEBIAN_FRONTEND='noninteractive' && \
     apt-get update -qq && \
+    apt-get -y build-dep pam && \
     apt-get install -qqy --no-install-recommends \
     vim freeradius freeradius-utils nodejs nodejs-legacy npm wget &&\
     export CONFIGURE_OPTS=--disable-audit && \
-    cd /root && apt-get -b source pam && d\
-    pkg -i libpam-doc*.deb libpam-modules*.deb libpam-runtime*.deb libpam0g*.deb
+    cd /root && apt-get -b source pam && \
+    dpkg -i libpam-doc*.deb libpam-modules*.deb libpam-runtime*.deb libpam0g*.deb
     apt-get clean autoclean && \
     rm -rf /var/lib/apt/lists/{apt,dpkg,cache,log} /tmp/*
 
