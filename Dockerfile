@@ -12,7 +12,7 @@ RUN export DEBIAN_FRONTEND='noninteractive' && \
     vim freeradius freeradius-utils nodejs nodejs-legacy npm wget &&\
     export CONFIGURE_OPTS=--disable-audit && \
     cd /root && apt-get -b source pam && \
-    dpkg -i libpam-doc*.deb libpam-modules*.deb libpam-runtime*.deb libpam0g*.deb
+    dpkg -i libpam-doc*.deb libpam-modules*.deb libpam-runtime*.deb libpam0g*.deb \
     apt-get clean autoclean && \
     rm -rf /var/lib/apt/lists/{apt,dpkg,cache,log} /tmp/*
 
