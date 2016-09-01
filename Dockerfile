@@ -1,19 +1,20 @@
-FROM ubuntu:16.04
+FROM sequenceiq/pam:ubuntu-14.04
 MAINTAINER Graeme Gellatly <graemeg@roof.co.nz>
 
 ENV DIRECTORY your.ad.domain
 ENV CLIENT_ID secret
+ENV DEBIAN_FRONTEND noninteractive
+
+RUN apt-get update
 
 # Install pam, node and freeradius
-RUN export DEBIAN_FRONTEND='noninteractive' && \
-    apt-get update -qq && \
-    apt-get -y build-dep pam && \
-    apt-get install -qqy --no-install-recommends \
-    vim freeradius freeradius-utils nodejs nodejs-legacy npm wget &&\
-    export CONFIGURE_OPTS=--disable-audit && \
-    cd /root && apt-get -b source pam && \
-    dpkg -i libpam-doc*.deb libpam-modules*.deb libpam-runtime*.deb libpam0g*.deb \
-    apt-get clean autoclean && \
+RUN apt-get -y install software-properties-common && \
+    add-apt-repository ppa:freeradius/stable && \
+    apt-get update && \
+    apt-get -y install --no-install-recommends \
+    vim freeradius freeradius-utils nodejs nodejs-legacy npm wget
+
+RUN apt-get clean autoclean && \
     rm -rf /var/lib/apt/lists/{apt,dpkg,cache,log} /tmp/*
 
 COPY aad-login_0.1.tar.gz /opt/
